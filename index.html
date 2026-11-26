@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lixo Hospitalar: Riscos e Impactos Ambientais e Sociais</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        medical: { 50: '#f0f9ff', 100: '#e0f2fe', 500: '#0284c7', 800: '#075985', 900: '#0f172a' },
+                        eco: { 500: '#10b981', 600: '#059669', 700: '#047857' },
+                        danger: { 500: '#ef4444', 600: '#dc2626' }
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .gradient-hero { background: linear-gradient(135deg, #0f172a 0%, #0369a1 50%, #047857 100%); }
+        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, opacity 0.3s ease-out; opacity: 0; }
+        .accordion-content.active { max-height: 500px; opacity: 1; }
+        /* Novos componentes (mesma paleta do site) */
+        .filter-btn.active { background-color: #0ea5e9; border-color: #0ea5e9; color: #fff; }
+        .route-track { left: 2rem; right: 2rem; }
+        @media (min-width: 640px) { .route-track { left: 3rem; right: 3rem; } }
+        .route-truck { transition: left .8s cubic-bezier(.4,0,.2,1); }
+        .route-bar { transition: width .8s cubic-bezier(.4,0,.2,1); }
+        .route-node { transition: all .3s; }
+        .route-node.active { background-color: #34d399; color: #022c22; border-color: #34d399; box-shadow: 0 0 0 6px rgba(52,211,153,.25); }
+        .route-node.done { background-color: rgba(16,185,129,.35); color: #a7f3d0; border-color: #10b981; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans leading-relaxed selection:bg-sky-500 selection:text-white">
+
+    <nav class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <span class="p-2 bg-sky-600 rounded-lg text-white"><i class="fa-solid fa-biohazard text-xl"></i></span>
+                    <span class="font-bold text-lg tracking-tight text-white">EcoSaúde <span class="text-sky-400 font-normal">| RSS</span></span>
+                </div>
+                <div class="hidden lg:block">
+                    <div class="ml-10 flex items-baseline space-x-5 text-sm font-medium">
+                        <a href="#oque-e" class="hover:text-sky-400 transition-colors">O que são RSS</a>
+                        <a href="#impactos-ambientais" class="hover:text-emerald-400 transition-colors">Impactos Ambientais</a>
+                        <a href="#impactos-sociais" class="hover:text-rose-400 transition-colors">Impactos Sociais</a>
+                        <a href="#simulador" class="hover:text-sky-400 transition-colors">Simulador</a>
+                        <a href="#descarte-correto" class="hover:text-emerald-400 transition-colors">Descarte Correto</a>
+                        <a href="#como-funciona" class="hover:text-sky-400 transition-colors">Do Início ao Fim</a>
+                        <a href="#salgueiro" class="hover:text-emerald-400 transition-colors">Salgueiro/PE</a>
+                        <a href="#percurso" class="hover:text-sky-400 transition-colors">Percurso</a>
+                        <a href="#quiz" class="hover:text-emerald-400 transition-colors">Quiz Interativo</a>
+                    </div>
+                </div>
+                <div class="lg:hidden">
+                    <button id="mobile-menu-btn" class="p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden lg:hidden bg-slate-900 px-4 pt-2 pb-4 space-y-2 border-b border-slate-800">
+            <a href="#oque-e" class="block px-3 py-2 rounded-md text-slate-300 hover:text-white hover:bg-slate-800">O que são RSS</a>
+            <a href="#impactos-ambientais" class="block px-3 py-2 rounded-md text-slate-300 hover:text-white hover:bg-slate-800">Impactos Ambientais</a>
+            <a href="#impactos-sociais" class="block px-3 py-2 rounded-md text-slate-300 hover:text-white hover:bg-slate-800">Impactos Sociais</a>
+            <a href="#simulador" class="block px-3 py-2 rounded-md text-slate-300 hover:text-white hover:bg-slate-800">Simulador de Risco</a>
+            <a href="#descarte-correto" class="block px-3 py-2 rounded-md text-slate-300 hover:text-white hover:bg-slate-800">Descarte Correto</a>
+            <a href="#como-funciona" class="block px-3 py-2 rounded-md text-slate-300 hover:text-white hover:bg-slate-800">Do Início ao Fim</a>
+            <a href="#salgueiro" class="block px-3 py-2 rounded-md text-slate-300 hover:text-white hover:bg-slate-800">Unidades de Salgueiro/PE</a>
+            <a href="#percurso" class="block px-3 py-2 rounded-md text-slate-300 hover:text-white hover:bg-slate-800">Percurso do Lixo</a>
+            <a href="#quiz" class="block px-3 py-2 rounded-md text-slate-300 hover:text-white hover:bg-slate-800">Quiz Interativo</a>
+        </div>
+    </nav>
+
+    <header class="gradient-hero text-white py-20 lg:py-28 px-4 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/20 text-sky-200 border border-sky-400/30 mb-6">
+                <i class="fa-solid fa-shield-virus"></i> Conscientização e Proteção Ambiental
+            </span>
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
+                Lixo Hospitalar: <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-emerald-300">Riscos e Impactos</span>
+            </h1>
+            <p class="text-lg sm:text-xl text-slate-200 max-w-3xl mx-auto mb-10 font-light">
+                O manejo inadequado dos Resíduos de Serviços de Saúde (RSS) representa uma ameaça invisível, porém severa, à biodiversidade, ao ecossistema e à saúde dos trabalhadores urbanos.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#simulador" class="px-6 py-3.5 bg-sky-500 hover:bg-sky-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-sky-500/30 transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-calculator"></i> Simular Nível de Risco
+                </a>
+                <a href="#oque-e" class="px-6 py-3.5 bg-slate-800/80 hover:bg-slate-800 text-white font-semibold rounded-xl border border-slate-700 backdrop-blur-sm transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-book-open"></i> Entender Categorias
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
+
+        <section id="oque-e" class="scroll-mt-20">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">O que são Resíduos de Serviços de Saúde (RSS)?</h2>
+                <p class="text-slate-600">São todos os resíduos gerados por estabelecimentos de saúde (hospitais, clínicas, postos de saúde, farmácias e laboratórios). Para evitar tragédias sanitárias, são categorizados em grupos segundo a RDC ANVISA nº 222/2018:</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-5xl mx-auto">
+                <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <button class="accordion-btn w-full p-5 text-left flex justify-between items-center bg-slate-50 hover:bg-slate-100 transition-colors font-semibold text-slate-800">
+                        <span class="flex items-center gap-3"><span class="w-8 h-8 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center font-bold">A</span>Infectantes (Biológicos)</span>
+                        <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content px-5 text-sm text-slate-600 space-y-2">
+                        <p class="pt-4">Resíduos com presença de agentes biológicos (vírus, bactérias, fungos) que apresentam risco de contaminação.</p>
+                        <p class="font-medium text-slate-700">Exemplos: Bolsas de sangue, gazes sujas, culturas de laboratório, peças anatômicas e vacinas vencidas.</p>
+                        <p class="pb-4 text-xs text-rose-600 font-semibold"><i class="fa-solid fa-triangle-exclamation"></i> Requer saco branco leitoso com símbolo de risco biológico.</p>
+                    </div>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <button class="accordion-btn w-full p-5 text-left flex justify-between items-center bg-slate-50 hover:bg-slate-100 transition-colors font-semibold text-slate-800">
+                        <span class="flex items-center gap-3"><span class="w-8 h-8 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center font-bold">B</span>Químicos</span>
+                        <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content px-5 text-sm text-slate-600 space-y-2">
+                        <p class="pt-4">Substâncias químicas capazes de causar riscos à saúde pública ou ao meio ambiente devido à sua toxicidade, corrosividade ou inflamabilidade.</p>
+                        <p class="font-medium text-slate-700">Exemplos: Medicamentos vencidos, reagentes de laboratório, mercúrio de termômetros e desinfetantes.</p>
+                        <p class="pb-4 text-xs text-amber-600 font-semibold"><i class="fa-solid fa-flask"></i> Requer embalagens rígidas e estanques identificadas.</p>
+                    </div>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <button class="accordion-btn w-full p-5 text-left flex justify-between items-center bg-slate-50 hover:bg-slate-100 transition-colors font-semibold text-slate-800">
+                        <span class="flex items-center gap-3"><span class="w-8 h-8 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center font-bold">C</span>Rejeitos Radioativos</span>
+                        <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content px-5 text-sm text-slate-600 space-y-2">
+                        <p class="pt-4">Materiais que contêm radionuclídeos em quantidades superiores aos limites de isenção especificados pela CNEN.</p>
+                        <p class="font-medium text-slate-700">Exemplos: Restos de radiofármacos usados em exames de imagem e radioterapia.</p>
+                        <p class="pb-4 text-xs text-purple-600 font-semibold"><i class="fa-solid fa-radiation"></i> Regulado estritamente pelas normas da CNEN.</p>
+                    </div>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <button class="accordion-btn w-full p-5 text-left flex justify-between items-center bg-slate-50 hover:bg-slate-100 transition-colors font-semibold text-slate-800">
+                        <span class="flex items-center gap-3"><span class="w-8 h-8 rounded-lg bg-sky-100 text-sky-600 flex items-center justify-center font-bold">D</span>Resíduos Comuns</span>
+                        <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content px-5 text-sm text-slate-600 space-y-2">
+                        <p class="pt-4">Materiais que não apresentem risco biológico, químico ou radiológico à saúde ou ao meio ambiente (semelhantes aos resíduos domésticos).</p>
+                        <p class="font-medium text-slate-700">Exemplos: Sobras de alimentos de refeitórios, papéis de escritório, embalagens não contaminadas.</p>
+                        <p class="pb-4 text-xs text-sky-600 font-semibold"><i class="fa-solid fa-recycle"></i> Podem ser destinados à reciclagem ou coleta municipal.</p>
+                    </div>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow md:col-span-2">
+                    <button class="accordion-btn w-full p-5 text-left flex justify-between items-center bg-slate-50 hover:bg-slate-100 transition-colors font-semibold text-slate-800">
+                        <span class="flex items-center gap-3"><span class="w-8 h-8 rounded-lg bg-red-100 text-red-600 flex items-center justify-center font-bold">E</span>Perfurocortantes</span>
+                        <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content px-5 text-sm text-slate-600 space-y-2">
+                        <p class="pt-4">Materiais perfurantes ou cortantes que exigem cuidados extremos de manuseio e descarte para evitar acidentes perfurantes.</p>
+                        <p class="font-medium text-slate-700">Exemplos: Agulhas, seringas, bisturis, ampolas de vidro, lâminas e vidrarias quebradas de laboratório.</p>
+                        <p class="pb-4 text-xs text-red-600 font-semibold"><i class="fa-solid fa-box"></i> Obrigatoriamente descartados em caixas rígidas e amarelas (tipo Descarpack).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="impactos-ambientais" class="scroll-mt-20">
+            <div class="bg-emerald-900 text-white rounded-3xl p-8 sm:p-12 shadow-xl relative overflow-hidden">
+                <div class="max-w-3xl mb-10">
+                    <span class="text-emerald-400 font-bold uppercase tracking-wider text-xs">Consequências Ecológicas</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold mt-2">Impactos Ambientais Devastadores</h2>
+                    <p class="text-emerald-100 mt-4">Quando resíduos hospitalares são despejados em lixões a céu aberto ou aterros comuns sem tratamento prévio, desencadeia-se uma cadeia de contaminação permanente.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
+                    <div class="bg-emerald-800/60 backdrop-blur border border-emerald-700/50 p-6 rounded-2xl">
+                        <div class="w-12 h-12 bg-emerald-500/20 text-emerald-300 rounded-xl flex items-center justify-center text-2xl mb-4"><i class="fa-solid fa-water"></i></div>
+                        <h3 class="text-xl font-bold mb-2">Lençóis Freáticos</h3>
+                        <p class="text-sm text-emerald-100/80">A infiltração de chorume enriquecido com antibióticos, metais pesados (mercúrio) e desinfetantes envenena fontes subterrâneas de água potável por décadas.</p>
+                    </div>
+                    <div class="bg-emerald-800/60 backdrop-blur border border-emerald-700/50 p-6 rounded-2xl">
+                        <div class="w-12 h-12 bg-emerald-500/20 text-emerald-300 rounded-xl flex items-center justify-center text-2xl mb-4"><i class="fa-solid fa-smog"></i></div>
+                        <h3 class="text-xl font-bold mb-2">Poluição do Ar</h3>
+                        <p class="text-sm text-emerald-100/80">A queima não controlada (incineração inadequada) libera dioxinas e furanos, compostos altíssimamente tóxicos e cancerígenos que permanecem na atmosfera.</p>
+                    </div>
+                    <div class="bg-emerald-800/60 backdrop-blur border border-emerald-700/50 p-6 rounded-2xl">
+                        <div class="w-12 h-12 bg-emerald-500/20 text-emerald-300 rounded-xl flex items-center justify-center text-2xl mb-4"><i class="fa-solid fa-dna"></i></div>
+                        <h3 class="text-xl font-bold mb-2">Superbactérias</h3>
+                        <p class="text-sm text-emerald-100/80">Resíduos com antibióticos em contato com o solo favorecem a seleção natural de bactérias ultrarresistentes, criando um gargalo biológico global.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="impactos-sociais" class="scroll-mt-20">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Impactos Sociais e à Saúde Pública</h2>
+                <p class="text-slate-600">O descarte irresponsável fere diretamente a dignidade humana e expõe populações vulneráveis e profissionais de limpeza urbana a acidentes letais.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-rose-100 text-rose-600 rounded-xl flex items-center justify-center text-2xl mb-4"><i class="fa-solid fa-person-digging"></i></div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Perigo para Catadores</h3>
+                    <p class="text-sm text-slate-600">Catadores de recicláveis em lixões manuseiam sem saber materiais contaminados com sangue humano, secreções corpóreas e agulhas soltas.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-2xl mb-4"><i class="fa-solid fa-syringe"></i></div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Acidentes com Perfurocortantes</h3>
+                    <p class="text-sm text-slate-600">Agulhas descartadas em lixo comum perfuram garis e coletores de lixo municipal, gerando traumas psicológicos e risco de infecções graves.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-red-100 text-red-600 rounded-xl flex items-center justify-center text-2xl mb-4"><i class="fa-solid fa-virus"></i></div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Transmissão de Doenças</h3>
+                    <p class="text-sm text-slate-600">Exposição direta ao vírus da Hepatite B, Hepatite C e HIV por perfurações acidentais, além de contaminação por bactérias patogênicas.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow lg:col-span-3">
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <div class="w-16 h-16 bg-sky-100 text-sky-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-3xl"><i class="fa-solid fa-bug"></i></div>
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-900 mb-1">Proliferação de Vetores de Doenças</h3>
+                            <p class="text-sm text-slate-600">Matéria orgânica hospitalar descartada incorretamente atrai roedores, moscas e insetos vetores. Esses vetores entram em contato com patógenos hospitalares e migram para áreas residenciais vizinhas, provocando surtos comunitários de infecções graves.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="simulador" class="scroll-mt-20 bg-slate-900 text-white rounded-3xl p-8 sm:p-12 shadow-2xl">
+            <div class="max-w-3xl mb-8">
+                <span class="text-sky-400 font-bold uppercase tracking-wider text-xs">Simulador Interativo</span>
+                <h2 class="text-3xl font-bold mt-1">Calculadora de Impacto e Perigo</h2>
+                <p class="text-slate-400 mt-2 text-sm">Selecione um item hospitalar para simular as consequências do seu descarte inadequado no meio ambiente e na comunidade.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                <div class="space-y-4">
+                    <label for="waste-select" class="block text-sm font-medium text-slate-300">Escolha o Resíduo Hospitalar:</label>
+                    <select id="waste-select" class="w-full p-3.5 bg-slate-800 border border-slate-700 rounded-xl text-white focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        <option value="agulha">Agulha / Seringa Usada</option>
+                        <option value="medicamento">Medicamentos Vencidos / Frascos</option>
+                        <option value="sangue">Bolsa de Sangue / Gaze Contaminada</option>
+                        <option value="termometro">Termômetro de Mercúrio Quebrado</option>
+                        <option value="raiox">Chapa de Raio-X / Reagente</option>
+                    </select>
+                    <button id="btn-simulate" class="w-full py-3.5 bg-sky-500 hover:bg-sky-600 font-semibold text-white rounded-xl shadow-lg transition-all">Analisar Riscos <i class="fa-solid fa-arrow-right ml-2"></i></button>
+                </div>
+                <div id="sim-result" class="lg:col-span-2 bg-slate-800 border border-slate-700 p-6 rounded-2xl relative">
+                    <div id="sim-placeholder" class="text-center py-8 text-slate-500">
+                        <i class="fa-solid fa-flask-vial text-4xl mb-3"></i>
+                        <p>Clique em "Analisar Riscos" para visualizar o impacto simulado.</p>
+                    </div>
+                    <div id="sim-content" class="hidden space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-700 pb-4">
+                            <h3 id="sim-title" class="text-xl font-bold text-white">---</h3>
+                            <span id="sim-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-red-500/20 text-red-400 border border-red-500/30">Nível Crítico</span>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                            <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700/50">
+                                <span class="text-slate-400 text-xs block mb-1"><i class="fa-solid fa-clock text-sky-400 mr-1"></i> Tempo de Decomposição</span>
+                                <span id="sim-time" class="font-semibold text-white">---</span>
+                            </div>
+                            <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700/50">
+                                <span class="text-slate-400 text-xs block mb-1"><i class="fa-solid fa-biohazard text-amber-400 mr-1"></i> Principal Agente Causal</span>
+                                <span id="sim-agent" class="font-semibold text-white">---</span>
+                            </div>
+                        </div>
+                        <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700/50">
+                            <span class="text-slate-400 text-xs block mb-1"><i class="fa-solid fa-triangle-exclamation text-rose-400 mr-1"></i> Impacto Socioambiental Direto</span>
+                            <p id="sim-impact" class="text-slate-300 text-sm">---</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="descarte-correto" class="scroll-mt-20">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Soluções: Manejo e Legislação Vigente</h2>
+                <p class="text-slate-600">O descarte correto do lixo hospitalar obedece a etapas rigorosas de segregação, tratamento e destinação final previstas por órgãos reguladores como CONAMA e ANVISA.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 relative">
+                    <span class="w-10 h-10 bg-sky-500 text-white rounded-xl flex items-center justify-center font-bold text-lg mb-4">1</span>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Segregação na Fonte</h3>
+                    <p class="text-sm text-slate-600">Separação imediata dos resíduos no momento e local exato de sua geração, utilizando lixeiras de cores padronizadas e sacos específicos identificados com símbolos de risco.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 relative">
+                    <span class="w-10 h-10 bg-emerald-500 text-white rounded-xl flex items-center justify-center font-bold text-lg mb-4">2</span>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Tratamento Adequado</h3>
+                    <p class="text-sm text-slate-600">Processos como <strong>Autoclavação</strong> (esterilização por vapor sob alta pressão) ou <strong>Incineração Controlada</strong> com filtros especiais neutralizam patógenos antes do descarte final.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 relative">
+                    <span class="w-10 h-10 bg-indigo-500 text-white rounded-xl flex items-center justify-center font-bold text-lg mb-4">3</span>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Destinação Licenciada</h3>
+                    <p class="text-sm text-slate-600">Encaminhamento dos resíduos tratados apenas para aterros sanitários industriais ou de resíduos perigosos devidamente autorizados pelos órgãos ambientais estaduais.</p>
+                </div>
+            </div>
+            <div class="mt-8 bg-sky-50 border border-sky-100 rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-6">
+                <div class="p-4 bg-sky-500 text-white rounded-2xl flex-shrink-0"><i class="fa-solid fa-scale-balanced text-3xl"></i></div>
+                <div>
+                    <h4 class="font-bold text-slate-900 text-lg mb-1">Principais Normas e Regulamentações Brasileiras</h4>
+                    <p class="text-sm text-slate-600">
+                        • <strong>RDC ANVISA Nº 222/2018:</strong> Regulamento técnico para o gerenciamento de Resíduos de Serviços de Saúde.<br>
+                        • <strong>Resolução CONAMA Nº 358/2004:</strong> Dispõe sobre o tratamento e a disposição final dos RSS focando na preservação ambiental.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- NOVO: COMO FUNCIONA, DO INÍCIO À DESTINAÇÃO FINAL -->
+        <section id="como-funciona" class="scroll-mt-20">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-sky-500 font-bold uppercase tracking-wider text-xs">Como Funciona</span>
+                <h2 class="text-3xl font-bold text-slate-900 mt-1 mb-4">Do Início à Destinação Final</h2>
+                <p class="text-slate-600">Acompanhe as 8 etapas que o lixo hospitalar percorre, desde o momento em que é gerado até ser disposto de forma segura.</p>
+            </div>
+            <div id="etapas-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+
+            <h3 class="text-xl font-bold text-slate-900 mt-14 mb-6 text-center">Qual é o destino de cada grupo?</h3>
+            <div id="destinos-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4"></div>
+        </section>
+
+        <!-- NOVO: UNIDADES DE SALGUEIRO -->
+        <section id="salgueiro" class="scroll-mt-20">
+            <div class="text-center max-w-3xl mx-auto mb-8">
+                <span class="text-emerald-600 font-bold uppercase tracking-wider text-xs">Estudo de Caso Local</span>
+                <h2 class="text-3xl font-bold text-slate-900 mt-1 mb-4">Quem Gera Lixo Hospitalar em Salgueiro/PE</h2>
+                <p class="text-slate-600">Principais estabelecimentos de saúde do município e os tipos de resíduo que costumam gerar.</p>
+            </div>
+            <div id="unit-filters" class="flex flex-wrap justify-center gap-2 mb-8"></div>
+            <div id="unit-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+            <div class="mt-8 bg-amber-50 border border-amber-100 rounded-2xl p-4 text-xs text-slate-600 flex gap-3 items-start">
+                <i class="fa-solid fa-circle-info text-amber-500 mt-0.5"></i>
+                <p>Lista levantada em fontes públicas (SES-PE, Prefeitura e diretórios de saúde). Os grupos de resíduo por unidade são <strong>típicos</strong> de cada tipo de serviço, e não um inventário oficial. Confirme a relação atualizada com a Secretaria de Saúde de Salgueiro.</p>
+            </div>
+        </section>
+
+        <!-- NOVO: PERCURSO + CONTRATO -->
+        <section id="percurso" class="scroll-mt-20">
+            <div class="bg-emerald-900 text-white rounded-3xl p-8 sm:p-12 shadow-xl relative overflow-hidden">
+                <div class="max-w-3xl mb-10">
+                    <span class="text-emerald-400 font-bold uppercase tracking-wider text-xs">Rastreabilidade</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold mt-2">O Percurso do Lixo até a Destinação Final</h2>
+                    <p class="text-emerald-100 mt-4">Acompanhe a viagem do resíduo, saindo das unidades de saúde de Salgueiro até a empresa contratada pela Prefeitura.</p>
+                </div>
+
+                <div class="relative pt-9 pb-2">
+                    <div class="route-track absolute top-0 bottom-0 pointer-events-none">
+                        <div class="absolute left-0 right-0 top-[3.5rem] h-2 rounded-full bg-emerald-800"></div>
+                        <div id="route-bar" class="route-bar absolute left-0 top-[3.5rem] h-2 rounded-full bg-emerald-400" style="width:0"></div>
+                        <div id="route-truck" class="route-truck absolute top-0 -translate-x-1/2 text-emerald-300 text-3xl" style="left:0"><i class="fa-solid fa-truck-medical"></i></div>
+                    </div>
+                    <div id="route-nodes" class="relative flex justify-between"></div>
+                </div>
+
+                <div id="route-detail" class="mt-8 bg-emerald-800/60 backdrop-blur border border-emerald-700/50 p-6 rounded-2xl min-h-[170px]"></div>
+
+                <div class="flex flex-wrap justify-between items-center gap-3 mt-6">
+                    <div class="flex gap-2">
+                        <button id="route-prev" class="px-4 py-2.5 rounded-xl bg-emerald-800 hover:bg-emerald-700 border border-emerald-700 text-sm font-semibold transition-colors"><i class="fa-solid fa-arrow-left mr-1"></i> Anterior</button>
+                        <button id="route-next" class="px-4 py-2.5 rounded-xl bg-emerald-800 hover:bg-emerald-700 border border-emerald-700 text-sm font-semibold transition-colors">Próxima <i class="fa-solid fa-arrow-right ml-1"></i></button>
+                    </div>
+                    <button id="route-play" class="px-6 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-600 text-white font-semibold shadow-lg transition-all text-sm"><i class="fa-solid fa-play mr-1"></i> Reproduzir percurso</button>
+                </div>
+            </div>
+
+            <!-- Contrato -->
+            <div class="mt-8 bg-white border border-slate-200 rounded-3xl p-8 sm:p-10 shadow-sm">
+                <div class="flex flex-col md:flex-row gap-6 items-start">
+                    <div class="p-4 bg-sky-500 text-white rounded-2xl flex-shrink-0"><i class="fa-solid fa-file-signature text-3xl"></i></div>
+                    <div class="flex-1">
+                        <span class="text-sky-500 font-bold uppercase tracking-wider text-xs">Contratação Oficial</span>
+                        <h3 class="text-2xl font-bold text-slate-900 mt-1 mb-3">Quem recolhe o lixo hospitalar de Salgueiro?</h3>
+                        <p class="text-sm text-slate-600 mb-6">
+                            O Secretário de Serviços Públicos homologou o <strong>Processo Licitatório nº 108/2025 (Dispensa nº 023/2025)</strong>, com base no art. 71, inciso IV, e no art. 75, inciso II, da Lei 14.133/21. O objetivo é contratar empresa especializada em coleta, transporte e destinação final de resíduos de serviços de saúde e outros resíduos químicos perigosos (sólidos, líquidos e pastosos), os chamados lixo hospitalar, no Município de Salgueiro/PE.
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+                            <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl">
+                                <span class="text-slate-400 text-xs block mb-1"><i class="fa-solid fa-building text-sky-500 mr-1"></i> Empresa contratada</span>
+                                <span class="font-semibold text-slate-900">BRASCON GESTÃO AMBIENTAL LTDA</span>
+                                <span class="block text-xs text-slate-500 mt-1">CNPJ 11.863.530/0001-80</span>
+                            </div>
+                            <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl">
+                                <span class="text-slate-400 text-xs block mb-1"><i class="fa-solid fa-location-dot text-emerald-500 mr-1"></i> Sede da empresa</span>
+                                <span class="font-semibold text-slate-900">BR 232, Km 58, Distrito Industrial</span>
+                                <span class="block text-xs text-slate-500 mt-1">Pombos/PE, CEP 55630-000</span>
+                            </div>
+                            <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl">
+                                <span class="text-slate-400 text-xs block mb-1"><i class="fa-solid fa-coins text-amber-500 mr-1"></i> Valor global</span>
+                                <span class="font-semibold text-slate-900">R$ 54.950,00</span>
+                                <span class="block text-xs text-slate-500 mt-1">Cinquenta e quatro mil, novecentos e cinquenta reais</span>
+                            </div>
+                            <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl">
+                                <span class="text-slate-400 text-xs block mb-1"><i class="fa-solid fa-calendar-check text-rose-500 mr-1"></i> Vigência</span>
+                                <span class="font-semibold text-slate-900">12 meses</span>
+                                <span class="block text-xs text-slate-500 mt-1">Contratação por dispensa de licitação</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-6"><i class="fa-solid fa-circle-info text-sky-500 mr-1"></i> Fonte: ato de homologação do Processo Licitatório nº 108/2025. Esse contrato é da Prefeitura, e por isso atende a rede municipal. Hospitais estaduais, como o Inácio de Sá (SES-PE), e estabelecimentos privados podem ter contratos próprios com outras empresas.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="quiz" class="scroll-mt-20 bg-white border border-slate-200 rounded-3xl p-8 sm:p-12 shadow-sm">
+            <div class="max-w-3xl mx-auto text-center mb-8">
+                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700">Teste Seus Conhecimentos</span>
+                <h2 class="text-3xl font-bold text-slate-900 mt-2">Quiz: Manejo Consciente de RSS</h2>
+                <p class="text-slate-600 text-sm mt-1">Responda às 4 perguntas abaixo para avaliar o seu aprendizado sobre os riscos do lixo hospitalar.</p>
+            </div>
+            <div class="max-w-2xl mx-auto">
+                <div id="quiz-container"></div>
+                <div id="quiz-results" class="hidden text-center py-6">
+                    <h3 class="text-2xl font-bold text-slate-900 mb-2">Quiz Concluído!</h3>
+                    <p id="quiz-score-text" class="text-lg text-slate-600 mb-6"></p>
+                    <button id="btn-restart-quiz" class="px-6 py-3 bg-sky-500 hover:bg-sky-600 text-white font-semibold rounded-xl transition-colors">Refazer Quiz <i class="fa-solid fa-rotate-right ml-2"></i></button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center gap-2 text-white font-bold text-lg mb-3"><i class="fa-solid fa-biohazard text-sky-400"></i> EcoSaúde RSS</div>
+                    <p class="text-sm text-slate-400">Plataforma educativa dedicada à conscientização sobre a gestão, descarte e impactos socioambientais dos Resíduos de Serviços de Saúde.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-3">Links Normativos</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="https://www.gov.br/anvisa" target="_blank" rel="noopener" class="hover:text-sky-400 transition-colors">ANVISA - Vigilância Sanitária</a></li>
+                        <li><a href="https://www.gov.br/mma" target="_blank" rel="noopener" class="hover:text-emerald-400 transition-colors">Ministério do Meio Ambiente (CONAMA)</a></li>
+                        <li><a href="#oque-e" class="hover:text-sky-400 transition-colors">Classificação do Lixo Hospitalar</a></li>
+                        <li><a href="#salgueiro" class="hover:text-emerald-400 transition-colors">Lixo Hospitalar em Salgueiro/PE</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-3">Mensagem Verde</h4>
+                    <p class="text-sm italic text-slate-400">"Cuidar da saúde humana sem proteger o meio ambiente é um contra-senso. A responsabilidade com o resíduo hospitalar começa na segregação."</p>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-8 flex flex-col sm:flex-row items-center justify-between text-sm">
+                <p>&copy; 2026 EcoSaúde. Projeto Educativo e Conscientizador.</p>
+                <div class="mt-4 sm:mt-0 font-semibold text-slate-200 bg-slate-800 px-4 py-2 rounded-lg border border-slate-700">Desenvolvido por <span class="text-sky-400">Gustavo</span></div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- 1. Menu Mobile Toggle ---
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileBtn.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+            mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+
+            // --- 2. Componente Accordion (Categorias de Resíduos) ---
+            document.querySelectorAll('.accordion-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const content = btn.nextElementSibling;
+                    const icon = btn.querySelector('.fa-chevron-down, svg');
+                    document.querySelectorAll('.accordion-btn').forEach(other => {
+                        const c = other.nextElementSibling;
+                        if (c !== content) {
+                            c.classList.remove('active');
+                            const i = other.lastElementChild; if (i) i.style.transform = 'rotate(0deg)';
+                        }
+                    });
+                    content.classList.toggle('active');
+                    btn.lastElementChild.style.transform = content.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+                });
+            });
+
+            // --- 3. Simulador de Risco e Decomposição ---
+            const wasteData = {
+                agulha: { title: "Agulha / Seringa Usada (Perfurocortante)", badge: "Alto Risco Biológico / Perfuração", badgeColor: "bg-red-500/20 text-red-400 border-red-500/30", time: "Mais de 400 anos (componente plástico)", agent: "Vírus da Hepatite B, C e HIV", impact: "Risco iminente de acidentes perfurantes com garis e catadores. Transmissão imediata de patógenos sanguíneos graves se descartado em lixo comum." },
+                medicamento: { title: "Medicamento Vencido / Frascos Químicos", badge: "Risco Químico / Tóxico", badgeColor: "bg-amber-500/20 text-amber-400 border-amber-500/30", time: "Até 100 anos no solo/água", agent: "Ativos Farmacológicos / Antibióticos", impact: "Contaminação química de rios e lençóis freáticos. Provoca a formação de superbactérias resistentes e causa alterações hormonais na fauna aquática." },
+                sangue: { title: "Bolsa de Sangue / Material Infectado", badge: "Risco Biológico Crítico", badgeColor: "bg-rose-500/20 text-rose-400 border-rose-500/30", time: "Decomposição Orgânica (dias a semanas)", agent: "Bactérias Patogênicas e Fungos", impact: "Atração maciça de vetores de doenças (ratos, moscas) e contaminação bacteriana do solo urbano, gerando risco de surtos infecciosos na comunidade." },
+                termometro: { title: "Termômetro de Mercúrio Quebrado", badge: "Extremamente Perigoso (Metal Pesado)", badgeColor: "bg-purple-500/20 text-purple-400 border-purple-500/30", time: "Permanente (Elemento Químico)", agent: "Vapor de Mercúrio (Hg)", impact: "O mercúrio bioacumula na cadeia alimentar e evapora facilmente. Causa danos irreversíveis ao sistema nervoso central humano e contamina a água gravemente." },
+                raiox: { title: "Chapa de Raio-X / Fixadores", badge: "Risco Químico e Metais", badgeColor: "bg-sky-500/20 text-sky-400 border-sky-500/30", time: "Centenas de anos", agent: "Acetato e Prata Residual", impact: "A prata e os compostos químicos derivados contaminam o solo, impedindo o crescimento vegetal e afetando a microfauna do solo." }
+            };
+            const btnSimulate = document.getElementById('btn-simulate');
+            const wasteSelect = document.getElementById('waste-select');
+            const simPlaceholder = document.getElementById('sim-placeholder');
+            const simContent = document.getElementById('sim-content');
+            btnSimulate.addEventListener('click', () => {
+                const data = wasteData[wasteSelect.value];
+                if (data) {
+                    simPlaceholder.classList.add('hidden');
+                    simContent.classList.remove('hidden');
+                    document.getElementById('sim-title').textContent = data.title;
+                    const badge = document.getElementById('sim-badge');
+                    badge.textContent = data.badge;
+                    badge.className = `px-3 py-1 rounded-full text-xs font-bold border ${data.badgeColor}`;
+                    document.getElementById('sim-time').textContent = data.time;
+                    document.getElementById('sim-agent').textContent = data.agent;
+                    document.getElementById('sim-impact').textContent = data.impact;
+                }
+            });
+
+            // --- 4. NOVO: Etapas do início ao fim ---
+            const etapas = [
+                ['fa-stethoscope', 'Geração', 'Nasce durante o atendimento: curativos, seringas, medicamentos, exames e alimentos. Todo estabelecimento deve ter um PGRSS, o plano que organiza o ciclo inteiro.', 'Unidade de saúde'],
+                ['fa-filter', 'Segregação', 'Cada item é separado na hora e no local em que é gerado, nos grupos A, B, C, D e E. Misturar perigoso com comum contamina tudo.', 'Quem gera o resíduo'],
+                ['fa-box', 'Acondicionamento', 'Sacos brancos leitosos, caixas rígidas para perfurocortantes e bombonas para químicos, sempre identificados e fechados com 2/3 da capacidade.', 'Sala de procedimento'],
+                ['fa-dolly', 'Coleta interna', 'Carrinhos fechados e laváveis levam os resíduos até o armazenamento, em horários de pouca circulação e com EPIs.', 'Equipe de higienização'],
+                ['fa-warehouse', 'Abrigo externo', 'O resíduo aguarda a coleta em abrigo fechado, ventilado, lavável e de acesso restrito, separado por grupo.', 'Responsável do PGRSS'],
+                ['fa-truck-medical', 'Coleta e transporte', 'Veículo exclusivo e sinalizado recolhe os resíduos com Manifesto de Transporte de Resíduos (MTR), que permite rastrear a carga.', 'Empresa licenciada'],
+                ['fa-fire-burner', 'Tratamento', 'Autoclavagem, micro-ondas ou incineração eliminam o potencial infectante. Químicos e radioativos têm tratamento próprio.', 'Empresa de tratamento'],
+                ['fa-land-mine-on', 'Destinação final', 'O material tratado é disposto em aterro licenciado. A unidade geradora recebe o certificado e responde pelo resíduo até o fim.', 'Empresa e órgão ambiental']
+            ];
+            const cores = ['bg-sky-500', 'bg-emerald-500', 'bg-indigo-500'];
+            document.getElementById('etapas-grid').innerHTML = etapas.map(([ic, t, d, q], i) => `
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow relative">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="w-10 h-10 ${cores[i % 3]} text-white rounded-xl flex items-center justify-center font-bold text-lg">${i + 1}</span>
+                        <i class="fa-solid ${ic} text-slate-300 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">${t}</h3>
+                    <p class="text-sm text-slate-600 mb-3">${d}</p>
+                    <span class="inline-block px-2.5 py-1 rounded-full bg-sky-50 text-sky-600 text-xs font-semibold"><i class="fa-solid fa-user-shield mr-1"></i>${q}</span>
+                </div>`).join('');
+
+            const destinos = [
+                ['bg-rose-100 text-rose-600', 'A', 'Tratamento (autoclave ou micro-ondas) e depois aterro sanitário licenciado. Peças anatômicas seguem para incineração ou sepultamento.'],
+                ['bg-amber-100 text-amber-600', 'B', 'Depende da substância: tratamento específico ou incineração, e aterro de resíduos perigosos (Classe I).'],
+                ['bg-purple-100 text-purple-600', 'C', 'Armazenados para decaimento radioativo, seguindo as normas da CNEN, antes de qualquer liberação.'],
+                ['bg-sky-100 text-sky-600', 'D', 'Coleta comum municipal, com reciclagem dos recicláveis e aterro sanitário para o restante.'],
+                ['bg-red-100 text-red-600', 'E', 'Tratamento conforme o risco e depois aterro licenciado, sempre em caixas rígidas lacradas.']
+            ];
+            document.getElementById('destinos-grid').innerHTML = destinos.map(([c, g, d]) => `
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="w-8 h-8 rounded-lg ${c} flex items-center justify-center font-bold mb-3">${g}</span>
+                    <p class="text-xs text-slate-600">${d}</p>
+                </div>`).join('');
+
+            // --- 5. NOVO: Unidades de Salgueiro ---
+            const unidades = [
+                { cat: 'hospital', ic: 'fa-hospital', t: 'Hospital Regional Inácio de Sá (HRIS)', tag: 'Hospital · Rede estadual (SES-PE)', d: 'Principal hospital do município e referência da VII Região de Saúde, que reúne Salgueiro, Belém do São Francisco, Cedro, Mirandiba, Serrita, Terra Nova e Verdejante. Maior volume de resíduos da cidade.', g: ['A', 'B', 'D', 'E'] },
+                { cat: 'urgencia', ic: 'fa-truck-medical', t: 'UPA 24 horas / UPA de Especialidades', tag: 'Urgência e emergência', d: 'Pronto atendimento com urgências, curativos, suturas e medicações injetáveis. Confirmar com a Secretaria de Saúde o funcionamento atual de cada unidade.', g: ['A', 'B', 'D', 'E'] },
+                { cat: 'basica', ic: 'fa-house-medical', t: 'Unidades Básicas de Saúde (UBS/ESF)', tag: 'Atenção básica · Rede municipal', d: 'Postos urbanos (como nos bairros Nossa Senhora das Graças e Santo Antônio) e rurais (como Sítio Uri, Sítio Montevidéu e Sítio Reis). Geram vacinas, curativos, seringas e medicamentos vencidos.', g: ['A', 'B', 'D', 'E'] },
+                { cat: 'basica', ic: 'fa-people-roof', t: 'NASF Salgueiro', tag: 'Apoio à atenção básica', d: 'Equipe multiprofissional que apoia as UBS. Gera pouco resíduo, principalmente comum e material de curativos.', g: ['A', 'D'] },
+                { cat: 'privado', ic: 'fa-user-doctor', t: 'Clínicas, consultórios e laboratórios', tag: 'Rede privada', d: 'Estabelecimentos particulares, concentrados no Centro e na Av. Antônio Angelim. Laboratórios geram reagentes e perfurocortantes; clínicas, material de procedimentos.', g: ['A', 'B', 'D', 'E'] },
+                { cat: 'privado', ic: 'fa-tooth', t: 'Odontologia, farmácias e veterinárias', tag: 'Outros geradores', d: 'Também são geradores de RSS pela legislação: consultórios odontológicos (amálgama, agulhas), drogarias (medicamentos vencidos) e clínicas veterinárias.', g: ['A', 'B', 'D', 'E'] }
+            ];
+            const gcor = { A: 'bg-rose-100 text-rose-600', B: 'bg-amber-100 text-amber-600', C: 'bg-purple-100 text-purple-600', D: 'bg-sky-100 text-sky-600', E: 'bg-red-100 text-red-600' };
+            const filtros = [['todos', 'Todos'], ['hospital', 'Hospital'], ['urgencia', 'Urgência'], ['basica', 'Atenção básica'], ['privado', 'Rede privada']];
+            document.getElementById('unit-filters').innerHTML = filtros.map(([k, l], i) =>
+                `<button data-f="${k}" class="filter-btn ${i === 0 ? 'active' : ''} px-4 py-2 rounded-xl border border-slate-200 bg-white text-sm font-semibold text-slate-700 hover:border-sky-500 transition-all">${l}</button>`).join('');
+            function renderUnidades(f) {
+                document.getElementById('unit-grid').innerHTML = unidades.filter(u => f === 'todos' || u.cat === f).map(u => `
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-2xl mb-4"><i class="fa-solid ${u.ic}"></i></div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-1">${u.t}</h3>
+                        <p class="text-sky-500 text-xs font-semibold uppercase tracking-wider mb-3">${u.tag}</p>
+                        <p class="text-sm text-slate-600 mb-4">${u.d}</p>
+                        <div class="flex items-center gap-2 text-xs"><span class="text-slate-400">Resíduos típicos:</span>${u.g.map(x => `<span class="w-7 h-7 rounded-lg ${gcor[x]} flex items-center justify-center font-bold">${x}</span>`).join('')}</div>
+                    </div>`).join('');
+            }
+            document.querySelectorAll('.filter-btn').forEach(b => b.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(x => x.classList.remove('active'));
+                b.classList.add('active'); renderUnidades(b.dataset.f);
+            }));
+            renderUnidades('todos');
+
+            // --- 6. NOVO: Percurso animado ---
+            const paradas = [
+                ['fa-hospital', 'Unidades de saúde de Salgueiro', 'Hospital, UPA, UBSs e clínicas geram os resíduos e fazem a segregação nos grupos A, B, D e E, acondicionando em sacos, caixas rígidas e bombonas identificadas.'],
+                ['fa-warehouse', 'Abrigo externo', 'Cada unidade guarda os resíduos em abrigo fechado e identificado até o dia da coleta, com registro da quantidade por grupo.'],
+                ['fa-truck-medical', 'Coleta e transporte', 'A empresa contratada pela Prefeitura, a BRASCON Gestão Ambiental, recolhe os resíduos em veículo exclusivo e sinalizado, com MTR. A BR-232 liga o Sertão ao Recife e passa por Salgueiro e por Pombos.'],
+                ['fa-fire-burner', 'Tratamento', 'A BRASCON, sediada em Pombos/PE (BR 232, Km 58, Distrito Industrial), responde pelo tratamento, como autoclavagem ou incineração. O local exato do tratamento deve ser confirmado na licença ambiental da empresa.'],
+                ['fa-land-mine-on', 'Destinação final', 'O contrato inclui a destinação final dos resíduos, em local licenciado. A empresa emite o certificado de destinação para a Prefeitura.']
+            ];
+            let pIdx = 0, pTimer = null;
+            document.getElementById('route-nodes').innerHTML = paradas.map(([ic, t], n) => `
+                <button data-n="${n}" class="flex flex-col items-center gap-2 w-16 sm:w-24 text-center">
+                    <span class="route-node w-12 h-12 rounded-full border-2 border-emerald-600 bg-emerald-800 text-emerald-200 flex items-center justify-center text-lg"><i class="fa-solid ${ic}"></i></span>
+                    <span class="text-[10px] sm:text-xs text-emerald-100 leading-tight">${t}</span>
+                </button>`).join('');
+            function showStop(n) {
+                pIdx = n;
+                const pct = n / (paradas.length - 1) * 100;
+                document.getElementById('route-bar').style.width = pct + '%';
+                document.getElementById('route-truck').style.left = pct + '%';
+                document.querySelectorAll('.route-node').forEach((el, i) => { el.classList.toggle('active', i === n); el.classList.toggle('done', i < n); });
+                const [ic, t, d] = paradas[n];
+                document.getElementById('route-detail').innerHTML = `
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="w-12 h-12 bg-emerald-500/20 text-emerald-300 rounded-xl flex items-center justify-center text-2xl"><i class="fa-solid ${ic}"></i></span>
+                        <div><div class="text-xs text-emerald-400 font-bold uppercase tracking-wider">Etapa ${n + 1} de ${paradas.length}</div><h3 class="text-xl font-bold">${t}</h3></div>
+                    </div>
+                    <p class="text-sm text-emerald-100/90">${d}</p>`;
+            }
+            function stopPlay() { if (pTimer) { clearInterval(pTimer); pTimer = null; } document.getElementById('route-play').innerHTML = '<i class="fa-solid fa-play mr-1"></i> Reproduzir percurso'; }
+            document.querySelectorAll('#route-nodes button').forEach(b => b.addEventListener('click', () => { stopPlay(); showStop(+b.dataset.n); }));
+            document.getElementById('route-prev').addEventListener('click', () => { stopPlay(); showStop(Math.max(0, pIdx - 1)); });
+            document.getElementById('route-next').addEventListener('click', () => { stopPlay(); showStop(Math.min(paradas.length - 1, pIdx + 1)); });
+            document.getElementById('route-play').addEventListener('click', () => {
+                if (pTimer) { stopPlay(); return; }
+                document.getElementById('route-play').innerHTML = '<i class="fa-solid fa-pause mr-1"></i> Pausar';
+                if (pIdx >= paradas.length - 1) showStop(0);
+                pTimer = setInterval(() => { if (pIdx >= paradas.length - 1) { stopPlay(); return; } showStop(pIdx + 1); }, 3500);
+            });
+            showStop(0);
+
+            // --- 7. Quiz Interativo ---
+            const quizQuestions = [
+                { question: "Qual é a cor padrão da caixa rígida utilizada para o descarte exclusivo de materiais perfurocortantes (como agulhas e bisturis)?", options: ["Azul", "Amarela", "Verde", "Preta"], correct: 1, explanation: "Materiais perfurocortantes (Grupo E) devem ser descartados em caixas rígidas amarelas (Descarpack) para evitar furos acidentais." },
+                { question: "Qual destes é um impacto ambiental grave causado pelo descarte de medicamentos em pias ou lixões?", options: ["Redução do gás carbônico na atmosfera", "Desenvolvimento de superbactérias e contaminação da água", "Aumento da camada de ozônio", "Purificação do solo"], correct: 1, explanation: "Resíduos de antibióticos no ambiente selecionam bactérias resistentes (superbactérias) e contaminam a fauna aquática." },
+                { question: "Quem são os profissionais urbanos mais diretamente expostos a acidentes por agulhas descartadas em lixo comum?", options: ["Pilotos de avião", "Garis e catadores de materiais recicláveis", "Engenheiros civis", "Professores de escola"], correct: 1, explanation: "Garis e catadores manuseiam sacos de lixo e sofrem alto risco de perfurações quando o lixo hospitalar é descartado incorretamente." },
+                { question: "O que significa o processo de autoclavação no tratamento de lixo hospitalar?", options: ["Enterrar o lixo na praia", "Esterilização por vapor sob alta pressão e temperatura", "Congelamento de resíduos químicos", "Trituração sem higienização"], correct: 1, explanation: "A autoclavação utiliza vapor e calor sob alta pressão para exterminar vírus, bactérias e microorganismos patogênicos antes do descarte." }
+            ];
+            let currentQuestion = 0;
+            let score = 0;
+            const quizContainer = document.getElementById('quiz-container');
+            const quizResults = document.getElementById('quiz-results');
+            const quizScoreText = document.getElementById('quiz-score-text');
+            const btnRestartQuiz = document.getElementById('btn-restart-quiz');
+
+            function renderQuestion() {
+                const q = quizQuestions[currentQuestion];
+                quizContainer.innerHTML = `
+                    <div class="space-y-6">
+                        <div class="flex justify-between items-center text-xs font-semibold text-slate-400">
+                            <span>Pergunta ${currentQuestion + 1} de ${quizQuestions.length}</span>
+                            <span>Pontuação: ${score}</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900">${q.question}</h3>
+                        <div class="space-y-3">
+                            ${q.options.map((option, idx) => `
+                                <button data-index="${idx}" class="quiz-option-btn w-full p-4 text-left border border-slate-200 rounded-xl hover:border-sky-500 hover:bg-sky-50 transition-all text-slate-700 font-medium flex items-center justify-between">
+                                    <span>${option}</span>
+                                    <i class="fa-regular fa-circle text-slate-300"></i>
+                                </button>`).join('')}
+                        </div>
+                        <div id="quiz-feedback" class="hidden p-4 rounded-xl text-sm font-medium"></div>
+                    </div>`;
+                document.querySelectorAll('.quiz-option-btn').forEach(btn => {
+                    btn.addEventListener('click', () => handleAnswer(parseInt(btn.getAttribute('data-index'))));
+                });
+            }
+
+            function handleAnswer(selectedIndex) {
+                const q = quizQuestions[currentQuestion];
+                const feedbackEl = document.getElementById('quiz-feedback');
+                const optionsBtns = document.querySelectorAll('.quiz-option-btn');
+                optionsBtns.forEach(btn => btn.disabled = true);
+                if (selectedIndex === q.correct) {
+                    score++;
+                    optionsBtns[selectedIndex].classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-800');
+                    optionsBtns[selectedIndex].lastElementChild.outerHTML = '<i class="fa-solid fa-circle-check text-emerald-600"></i>';
+                    feedbackEl.className = "p-4 rounded-xl text-sm font-medium bg-emerald-100 text-emerald-800 block";
+                    feedbackEl.innerHTML = `<i class="fa-solid fa-check mr-2"></i> <strong>Correto!</strong> ${q.explanation}`;
+                } else {
+                    optionsBtns[selectedIndex].classList.add('border-rose-500', 'bg-rose-50', 'text-rose-800');
+                    optionsBtns[selectedIndex].lastElementChild.outerHTML = '<i class="fa-solid fa-circle-xmark text-rose-600"></i>';
+                    optionsBtns[q.correct].classList.add('border-emerald-500', 'bg-emerald-50');
+                    feedbackEl.className = "p-4 rounded-xl text-sm font-medium bg-rose-100 text-rose-800 block";
+                    feedbackEl.innerHTML = `<i class="fa-solid fa-xmark mr-2"></i> <strong>Incorreto.</strong> ${q.explanation}`;
+                }
+                setTimeout(() => {
+                    currentQuestion++;
+                    if (currentQuestion < quizQuestions.length) renderQuestion(); else showResults();
+                }, 3000);
+            }
+
+            function showResults() {
+                quizContainer.classList.add('hidden');
+                quizResults.classList.remove('hidden');
+                quizScoreText.innerHTML = `Você acertou <strong>${score}</strong> de <strong>${quizQuestions.length}</strong> perguntas! <br><span class="text-sm text-slate-500 mt-2 block">${score === quizQuestions.length ? 'Parabéns! Você domina o assunto de segurança e manejo de resíduos!' : 'Continue aprendendo para ajudar a proteger o meio ambiente e a saúde pública.'}</span>`;
+            }
+
+            btnRestartQuiz.addEventListener('click', () => {
+                currentQuestion = 0; score = 0;
+                quizResults.classList.add('hidden');
+                quizContainer.classList.remove('hidden');
+                renderQuestion();
+            });
+
+            renderQuestion();
+        });
+    </script>
+</body>
+</html>
